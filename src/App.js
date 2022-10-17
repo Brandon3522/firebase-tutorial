@@ -1,7 +1,7 @@
 import './styles.css';
 import { useState } from 'react';
 import { app, database } from './firebase.js';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import {
     collection,
     addDoc,
@@ -14,7 +14,7 @@ import {
     where,
 } from 'firebase/firestore';
 
-// replace createUserWithEmailAndPassword with SignInWithEmailAndPassword for sign in functionality
+// replace createUserWithEmailAndPassword with signInWithEmailAndPassword for sign in functionality
 
 function App() {
     let auth = getAuth();
@@ -24,6 +24,7 @@ function App() {
     const handleInput = (event) => {
         let newInput = { [event.target.name]: event.target.value };
 
+        // ...data = everything in the previous state ?
         setData({ ...data, ...newInput });
     };
 
@@ -31,7 +32,7 @@ function App() {
     const ageQuery = query(collectionRef, where('age', '<', '28'));
 
     // Create user with email and password
-    const handleSubmit = () => {
+    const createUser = () => {
         createUserWithEmailAndPassword(auth, data.email, data.password)
             .then((response) => {
                 console.log(response.user);
@@ -40,6 +41,19 @@ function App() {
                 alert(err.message);
             });
     };
+
+    // Sign in user with email and password
+    const signIn = () => {
+        signInWithEmailAndPassword(auth, data.email, data.password)
+            .then((response) => {
+                console.log(response.user);
+            })
+            .catch((err) => {
+                alert(err.message);
+            });
+    };
+
+
 
     // Send data to the database
     const handleData = () => {
@@ -124,7 +138,10 @@ function App() {
             ></input>
             <br></br>
             <br></br>
-            <button onClick={handleSubmit}>Submit</button>
+            <button onClick={createUser}>Create User</button>
+            <br></br>
+            <br></br>
+            <button onClick={signIn}>Sign In</button>
             <br></br>
             <br></br>
             <button onClick={handleData}>Submit Data</button>
@@ -139,7 +156,10 @@ function App() {
             <button onClick={deleteData}>Delete Data</button>
             <br></br>
             <br></br>
+            {/* getSnapshot button may not be needed */}
             <button onClick={getSnapshot}>Snapshot Data</button>
+            <br></br>
+            <br></br>
         </div>
     );
 }

@@ -1,0 +1,23 @@
+{
+    "studyDecks": [
+        {
+            "studyDeckid": "0123",
+            "numberFlaschcards": "2",
+            "timestamp": "0123456789",
+            "flashcards" : [
+                {
+                    "flashcardid": {
+                        "question": "question",
+                        "answer": "answer"
+                    }
+                },
+                {
+                    "flashcardid": {
+                        "question": "question",
+                        "answer": "answer"
+                    }
+                }
+            ]
+        }
+    ]
+}
